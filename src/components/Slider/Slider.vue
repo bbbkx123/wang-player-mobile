@@ -1,10 +1,14 @@
 <template>
-  <div>
+  <div class="slider">
     <div class="slider-wrapper" ref="sliderRef">
       <div class="slider-group" ref="sliderGroupRef">
         <slot></slot>
       </div>
     </div>
+    <div v-if="sliderGroupRef" class="dots">
+      <div v-for="(dot, index) in dots" :key="index" :class="{active: currentPageIndex === index }"  class="dots-item"></div>
+    </div>
+
   </div>
 </template>
 
@@ -18,32 +22,35 @@ BScroll.use(Slide)
 
 
 
-const initial = (slideRef) => {
-  return new BScroll(slideRef, {
+const initial = (state) => {
+  let slider =  new BScroll(state.sliderRef, {
     scrollX: true,
     scrollY: false,
     momentum: false,
     slide: {
-      // loop: true,
+      loop: true,
       threshold: 0.3,
       speed: 400,
       autoplay: false
     }
   })
+  slider.on("slideWillChange", (page) => {
+    state.currentPageIndex = page.pageX
+  })
 }
 
-const setSliderWidth = (sliderRef, sliderGroupRef) => {
-  let children = sliderGroupRef.children
+const setSliderWidth = (state) => {
+  let children = state.sliderGroupRef.children
   let width = 0
-  let sliderWidth = sliderRef.clientWidth
+  let sliderWidth = state.sliderRef.clientWidth
+  state.dots = new Array(...state.sliderGroupRef.children)
   for (let i = 0, len = children.length; i < len; i++) {
     let child = children[i]
     child.classList.add("slider-item")
     child.style.width = `${sliderWidth}px`
     width += sliderWidth
   }
-  sliderGroupRef.style.width = `${width}px`
-  console.log(width);
+  state.sliderGroupRef.style.width = `${width}px`
 }
 
 const methods = () => {
@@ -63,19 +70,15 @@ export default {
     let state = reactive({
       sliderRef: {},
       sliderGroupRef: {},
+      currentPageIndex: 0,
+      dots: [],
       ...methods()
     })
 
-    // let slider = null
-
-    
-
     onMounted(() => {
       setTimeout(() => {
-        state.setSliderWidth(state.sliderRef, state.sliderGroupRef)
-        // slider = 
-        state.initial(state.sliderRef)
-        // console.log(slider);
+        state.setSliderWidth(state)
+        state.initial(state)
       }, 200)
     })
 
@@ -85,16 +88,46 @@ export default {
 </script>
 
 <style lang="less">
-.slider-wrapper {
-  .slider-group {
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-    .slider-item {
-      float: left;
+@dotsWidth: 8px;
+
+.slider {
+  position: relative;
+  .slider-wrapper {
+    width: 100%;
+    .slider-group {
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      .slider-item {
+        float: left;
+        padding: 10px;
+        box-sizing: border-box;
+        & img {
+          width: 100%;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+  .dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    .dots-item {
+      margin-right: 5px;
+      width: @dotsWidth;
+      height: @dotsWidth;
+      border-radius: 50%;
+      background-color: red;
+      &.active {
+        background-color: blue;
+      }
     }
   }
 }
+
     
    
       

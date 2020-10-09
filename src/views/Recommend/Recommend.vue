@@ -3,7 +3,7 @@
     <Slider>
       <div v-for="(item, index) in banners" :key="index">
         <a href="">
-          <img :src="item.imageUrl+ '?param=375y175'" alt="">
+          <img :src="item.imageUrl" alt="">
           <!-- <img :src="item.imageUrl" alt=""> -->
         </a>
       </div>
