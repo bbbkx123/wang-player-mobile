@@ -20,10 +20,18 @@ axios.interceptors.request.use((config) => {
 })
 
 axios.interceptors.response.use((res) => {
-  // console.log(res);
   return res
 }, (err) => {
   return Promise.reject(err)
 })
 
-export default axios
+export const get = (url, params) => {
+  return axios.get(url, params).then(res => {
+    if (res.status === 200) {
+      if (res.data.code === 200) {
+        return Promise.resolve(res)
+      }
+    }
+    return Promise.reject(res)
+  })
+}

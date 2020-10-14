@@ -5,10 +5,9 @@
         <slot></slot>
       </div>
     </div>
-    <div v-if="sliderGroupRef" class="dots">
+    <div v-if="mode === 'Slide' && sliderGroupRef" class="dots">
       <div v-for="(dot, index) in dots" :key="index" :class="{active: currentPageIndex === index }"  class="dots-item"></div>
     </div>
-
   </div>
 </template>
 
@@ -18,37 +17,34 @@ import {onMounted, reactive, toRefs} from "vue"
 import BScroll from "@better-scroll/core"
 import Slide from "@better-scroll/slide"
 
-BScroll.use(Slide)
-
-
+const modeMap = new Map([
+  ["Slide", () => BScroll.use(Slide)],
+  ["", new Function()]
+])
 
 const initial = (state) => {
-  let slider =  new BScroll(state.sliderRef, {
-    scrollX: true,
-    scrollY: false,
-    momentum: false,
-    slide: {
-      loop: true,
-      threshold: 0.3,
-      speed: 400,
-      autoplay: false
-    }
-  })
-  slider.on("slideWillChange", (page) => {
-    state.currentPageIndex = page.pageX
-  })
+  let {sliderRef, sliderConf, currentPageIndex, mode} = state
+  const useMode = modeMap.get(mode)
+  useMode()
+  let slider =  new BScroll(sliderRef, sliderConf)
+  if (mode === "Slide") {
+    slider.on("slideWillChange", (page) => {
+      currentPageIndex = page.pageX
+    })
+  }
 }
 
 const setSliderWidth = (state) => {
-  let children = state.sliderGroupRef.children
   let width = 0
+  let children = state.sliderGroupRef.children
   let sliderWidth = state.sliderRef.clientWidth
   state.dots = new Array(...state.sliderGroupRef.children)
   for (let i = 0, len = children.length; i < len; i++) {
     let child = children[i]
+    let _width = typeof state.sliderItemWidth === "number" ? state.sliderItemWidth : sliderWidth
     child.classList.add("slider-item")
-    child.style.width = `${sliderWidth}px`
-    width += sliderWidth
+    child.style.width = `${_width}px`
+    width += _width
   }
   state.sliderGroupRef.style.width = `${width}px`
 }
@@ -57,21 +53,28 @@ const methods = () => {
   return {initial, setSliderWidth}
 }
 
-
 export default {
   props: {
-    size: {
+    sliderConf: {
+      type: Object,
+      default: () => null
+    },
+    mode: {
       type: String,
-      default: ''
+      default: ""  
+    },
+    sliderItemWidth: {
+      type: Number,
+      defalut: null
     }
   },
-  // props
-  setup() {
+  setup(props) {
     let state = reactive({
       sliderRef: {},
       sliderGroupRef: {},
       currentPageIndex: 0,
       dots: [],
+      ...props,
       ...methods()
     })
 
