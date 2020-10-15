@@ -3,27 +3,28 @@ import { createRouter, createWebHashHistory } from "vue-router"
 const routes = [
   {
     path: "/",
-    redirect: "/music/recommend"
+    redirect: "/home/recommend"
   },
   {
-    path: "/music",
-    name: "Music",
-    component: () => import("views/Music"),
+    path: "/home",
+    name: "home",
+    component: () => import("views/Home"),
     children: [
       {
         path: "mine",
-        name: "Mine",
+        name: "mine",
         component: () => import("views/Mine"),
       }, 
       {
         path: "recommend",
+        name: "recommend",
         component: () => import("views/Recommend"),
       }
     ]
   },
   {
     path: "/about",
-    name: "About",
+    name: "about",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.

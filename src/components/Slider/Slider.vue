@@ -23,13 +23,12 @@ const modeMap = new Map([
 ])
 
 const initial = (state) => {
-  let {sliderRef, sliderConf, currentPageIndex, mode} = state
-  const useMode = modeMap.get(mode)
+  const useMode = modeMap.get(state.mode)
   useMode()
-  let slider =  new BScroll(sliderRef, sliderConf)
-  if (mode === "Slide") {
+  let slider =  new BScroll(state.sliderRef, state.sliderConf)
+  if (state.mode === "Slide") {
     slider.on("slideWillChange", (page) => {
-      currentPageIndex = page.pageX
+      state.currentPageIndex = page.pageX
     })
   }
 }

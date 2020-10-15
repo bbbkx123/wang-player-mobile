@@ -1,13 +1,13 @@
 <template>
   <div class="home">
-    <!-- <Slider v-if="banners.length > 0" :sliderConf="bannerConf" mode="Slide">
+    recommend1
+    <Slider v-if="banners.length > 0" :sliderConf="bannerConf" mode="Slide">
       <div v-for="(item, index) in banners" :key="index">
         <a href="">
           <img :src="item.imageUrl" alt="">
         </a>
       </div>
-    </Slider> -->
-    <div>-------</div>
+    </Slider>
     <Slider v-if="recommend1.length > 0" :sliderConf="recommend1Conf" :sliderItemWidth="100">
       <div v-for="(item, index) in recommend1" :key="index">
         <a href="">
