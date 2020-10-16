@@ -1,6 +1,5 @@
 <template>
-  <div class="home">
-    recommend1
+  <div class="recommend">
     <Slider v-if="banners.length > 0" :sliderConf="bannerConf" mode="Slide">
       <div v-for="(item, index) in banners" :key="index">
         <a href="">
@@ -15,6 +14,20 @@
         </a>
       </div>
     </Slider>
+    <!-- <Slider v-if="recommend1.length > 0" :sliderConf="recommend1Conf" :sliderItemWidth="300">
+      <div v-for="(item, index) in recommend1" :key="index">
+        <a href="">
+          <img :src="item.coverImgUrl" alt="">
+        </a>
+      </div>
+    </Slider>
+    <Slider v-if="recommend1.length > 0" :sliderConf="recommend1Conf" :sliderItemWidth="300">
+      <div v-for="(item, index) in recommend1" :key="index">
+        <a href="">
+          <img :src="item.coverImgUrl" alt="">
+        </a>
+      </div>
+    </Slider> -->
   </div>
 </template>
 
@@ -85,3 +98,9 @@ export default {
   }
 }
 </script>
+
+<style lang="less">
+.recommend {
+  height: 1500px;
+}
+</style>

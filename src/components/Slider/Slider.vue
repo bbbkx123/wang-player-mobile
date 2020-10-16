@@ -31,6 +31,7 @@ const initial = (state) => {
       state.currentPageIndex = page.pageX
     })
   }
+  return slider
 }
 
 const setSliderWidth = (state) => {
@@ -73,14 +74,24 @@ export default {
       sliderGroupRef: {},
       currentPageIndex: 0,
       dots: [],
+      // slider: null,
       ...props,
       ...methods()
     })
 
+    // let state1 = shallowReactive({
+    //   slider: null
+    // })
+
     onMounted(() => {
       setTimeout(() => {
         state.setSliderWidth(state)
-        state.initial(state)
+        // state1.slider = state.initial(state)
+        // // 
+        // console.log(state1);
+        // if (state.mode !== "Slide") {
+        //   state1.slider.scrollTo(1000,0)
+        // }
       }, 200)
     })
 

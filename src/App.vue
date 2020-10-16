@@ -1,26 +1,15 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-    </div> -->
     <router-view/>
   </div>
 </template>
 
 <style lang="less">
 #app {
-  background-color: black;
+  
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
+  // background-color: black;
 }
-
-// #nav {
-//   padding: 30px;
-
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
-
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-// }
 </style>
