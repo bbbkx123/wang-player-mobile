@@ -6,10 +6,10 @@
 
 <style lang="less">
 #app {
-  
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
-  // background-color: black;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

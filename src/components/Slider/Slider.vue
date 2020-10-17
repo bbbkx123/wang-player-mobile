@@ -27,6 +27,7 @@ const initial = (state) => {
   useMode()
   let slider =  new BScroll(state.sliderRef, state.sliderConf)
   if (state.mode === "Slide") {
+    
     slider.on("slideWillChange", (page) => {
       state.currentPageIndex = page.pageX
     })
@@ -86,7 +87,7 @@ export default {
     onMounted(() => {
       setTimeout(() => {
         state.setSliderWidth(state)
-        // state1.slider = state.initial(state)
+        state.initial(state)
         // // 
         // console.log(state1);
         // if (state.mode !== "Slide") {

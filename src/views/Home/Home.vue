@@ -1,6 +1,6 @@
 <template>
   <div class="home" ref="">
-    <div class="home-wrapper" ref="homeWrapper">
+    <div class="home-wrapper">
       <div class="header">
         <div class="trigger"></div>
         <div class="tabs">
@@ -16,7 +16,9 @@
         </div>
         <div class="search"></div>
       </div>
-      <router-view></router-view>
+      <div ref="pullDownWrapper" class="pull-down-wrapper">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -28,9 +30,9 @@
 import { reactive, shallowReactive, toRefs, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import BScroll from "@better-scroll/core"
-import ScrollBar from "@better-scroll/scroll-bar"
+import PullDown from "@better-scroll/pull-down"
 
-BScroll.use(ScrollBar)
+BScroll.use(PullDown)
 
 export default {
   name: "Mine",
@@ -67,21 +69,35 @@ export default {
       ],
       currentTabKey: null,
       clickTabs,
-      homeWrapper: null
+      pullDownWrapper: null
     });
 
-    let state1 = shallowReactive({scroll: null})
+    let state1 = shallowReactive({bscroll: null})
 
     onMounted(() => {
-      state1.scroll = new BScroll(state.homeWrapper, {
+      state1.bscroll = new BScroll(state.pullDownWrapper, {
         scrollY: true,
         scrollX: false,
-        scrollbar: true
+        pullDownRefresh: true,
+        click: true
       })
 
-      setTimeout(() => {
-        state1.scroll.scrollTo(0, 10000)
-      }, 2000)
+      state1.bscroll.on("pullingDown", () => {
+        console.log("pull-down");
+        setTimeout(() => state1.bscroll.finishPullDown(), 2000)
+      })
+
+      state1.bscroll.on("scroll", () => {
+        console.log("scroll");
+      })
+
+      // state1.bscroll.on("scroll-end", () => {
+      //   console.log("scroll-end");
+      // })
+
+      // setTimeout(() => {
+      //   state1.scroll.scrollTo(0, 10000)
+      // }, 2000)
     })
 
     return { ...toRefs(state), state1 };
@@ -94,10 +110,11 @@ export default {
 
 .home {
   width: 100%;
+  height: 100%;
   .home-wrapper {
     position: relative;
     overflow-x: hidden;
-    overflow-y: scroll;
+    // overflow-y: scroll;
     height: 100%;
     .header {
       width: 100%;
@@ -124,6 +141,9 @@ export default {
       .search {
         width: 20%;
       }
+    }
+    .pull-down-wrapper {
+      height: calc(100% - @headerHeight);
     }
   } 
 }

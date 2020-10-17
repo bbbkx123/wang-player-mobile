@@ -14,6 +14,7 @@
         </a>
       </div>
     </Slider>
+    <div @click="fun">click</div>
     <!-- <Slider v-if="recommend1.length > 0" :sliderConf="recommend1Conf" :sliderItemWidth="300">
       <div v-for="(item, index) in recommend1" :key="index">
         <a href="">
@@ -68,6 +69,9 @@ export default {
     Slider
   },
   setup() {
+    const fun = () => {
+        console.log(12122121);
+      }
     let state = reactive({
       banners: [],
       bannerConf: { 
@@ -86,8 +90,11 @@ export default {
         scrollX: true,
         scrollY: false,
         momentum: true,
-      }
+      },
+      fun
     })
+
+    
     // getPlayListTags(state)
     getBanner(state)
     getTopPlayList(state)
