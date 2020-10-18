@@ -7,28 +7,14 @@
         </a>
       </div>
     </Slider>
-    <Slider v-if="recommend1.length > 0" :sliderConf="recommend1Conf" :sliderItemWidth="100">
-      <div v-for="(item, index) in recommend1" :key="index">
+    <Slider :sliderConf="iconSliderConf" :sliderItemWidth="100">
+      <div v-for="(item, index) in iconSlider" :key="index">
         <a href="">
-          <img :src="item.coverImgUrl" alt="">
+          <img style="width:100%;height:100%;" :src="`${publicPath}icon/${item.name}.png`" alt="">
         </a>
       </div>
     </Slider>
     <div @click="fun">click</div>
-    <!-- <Slider v-if="recommend1.length > 0" :sliderConf="recommend1Conf" :sliderItemWidth="300">
-      <div v-for="(item, index) in recommend1" :key="index">
-        <a href="">
-          <img :src="item.coverImgUrl" alt="">
-        </a>
-      </div>
-    </Slider>
-    <Slider v-if="recommend1.length > 0" :sliderConf="recommend1Conf" :sliderItemWidth="300">
-      <div v-for="(item, index) in recommend1" :key="index">
-        <a href="">
-          <img :src="item.coverImgUrl" alt="">
-        </a>
-      </div>
-    </Slider> -->
   </div>
 </template>
 
@@ -45,14 +31,14 @@ const getBanner = (state) => {
   })
 }
 
-const getTopPlayList = (state) => {
-  // ACG
-  return ApiGetTopPlayList(0, 6, "欧美").then(res => {
-    state.recommend1 = res.data.playlists
-  }).catch(err => {
+// const getTopPlayList = (state) => {
+//   // ACG
+//   return ApiGetTopPlayList(0, 6, "欧美").then(res => {
+//     state.iconSlider = res.data.playlists
+//   }).catch(err => {
 
-  })
-}
+//   })
+// }
 
 // const getPlayListTags = (state) => {
 //   return ApiGetPlayListTags().then(res => {
@@ -61,6 +47,29 @@ const getTopPlayList = (state) => {
 
 //   })
 // }
+
+const setIcon = (state) =>{
+  let base = 
+  console.log(process.env);
+  debugger
+  state.iconSlider = [
+    {
+      name: "123",
+    },
+    {
+      name: "歌单",
+    },
+    {
+      name: "私人FM",
+    },
+    {
+      name: "排行榜",
+    },
+    {
+      name: "电台",
+    }
+  ]
+}
 
 
 export default {
@@ -85,19 +94,21 @@ export default {
           autoplay: false
         }
       },
-      recommend1: [],
-      recommend1Conf: {
+      iconSlider: [],
+      iconSliderConf: {
         scrollX: true,
         scrollY: false,
         momentum: true,
       },
-      fun
+      icon: [],
+      publicPath: process.env.BASE_URL
     })
 
     
     // getPlayListTags(state)
     getBanner(state)
-    getTopPlayList(state)
+    setIcon(state)
+    // getTopPlayList(state)
 
     onBeforeMount(() => {})
 

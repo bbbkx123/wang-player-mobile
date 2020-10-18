@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@better-scroll/core": "^2.0.4",
+    "@better-scroll/pull-down": "^2.0.4",
     "@better-scroll/scroll-bar": "^2.0.4",
     "@better-scroll/slide": "^2.0.4",
     "axios": "^0.20.0",

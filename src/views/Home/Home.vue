@@ -78,8 +78,10 @@ export default {
       state1.bscroll = new BScroll(state.pullDownWrapper, {
         scrollY: true,
         scrollX: false,
-        pullDownRefresh: true,
-        click: true
+        pullDownRefresh: {
+          // stop: 200
+        },
+        click: true,
       })
 
       state1.bscroll.on("pullingDown", () => {
@@ -88,7 +90,7 @@ export default {
       })
 
       state1.bscroll.on("scroll", () => {
-        console.log("scroll");
+        // console.log("scroll");
       })
 
       // state1.bscroll.on("scroll-end", () => {
