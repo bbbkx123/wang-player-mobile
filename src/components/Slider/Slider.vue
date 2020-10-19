@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {onMounted, reactive, toRefs} from "vue"
+import {onMounted, reactive, toRefs, shallowReactive} from "vue"
 
 import BScroll from "@better-scroll/core"
 import Slide from "@better-scroll/slide"
@@ -22,16 +22,26 @@ const modeMap = new Map([
   ["", new Function()]
 ])
 
-const initial = (state) => {
+const initial = (state, ctx) => {
   const useMode = modeMap.get(state.mode)
   useMode()
   let slider =  new BScroll(state.sliderRef, state.sliderConf)
+  let hooks = slider.scroller.actionsHandler.hooks
+  
   if (state.mode === "Slide") {
-    
     slider.on("slideWillChange", (page) => {
       state.currentPageIndex = page.pageX
     })
   }
+
+  if (state.openHandleStart) {
+    hooks.on("start", event => {
+      debugger
+      ctx.emit("start")
+      
+    })
+  }
+
   return slider
 }
 
@@ -40,11 +50,14 @@ const setSliderWidth = (state) => {
   let children = state.sliderGroupRef.children
   let sliderWidth = state.sliderRef.clientWidth
   state.dots = new Array(...state.sliderGroupRef.children)
+  let _width = typeof state.sliderItemWidth === "number" ? state.sliderItemWidth : sliderWidth
+  let _height = state.sliderItemHeight
+  let needSetHeight = typeof _height === "number" && _height > 0
   for (let i = 0, len = children.length; i < len; i++) {
     let child = children[i]
-    let _width = typeof state.sliderItemWidth === "number" ? state.sliderItemWidth : sliderWidth
     child.classList.add("slider-item")
     child.style.width = `${_width}px`
+    if (needSetHeight) child.style.height = `${_height}px`
     width += _width
   }
   state.sliderGroupRef.style.width = `${width}px`
@@ -67,9 +80,17 @@ export default {
     sliderItemWidth: {
       type: Number,
       defalut: null
+    },
+    sliderItemHeight: {
+      type: Number,
+      defalut: null
+    },
+    openHandleStart: {
+      type: Boolean,
+      default: false
     }
   },
-  setup(props) {
+  setup(props, ctx) {
     let state = reactive({
       sliderRef: {},
       sliderGroupRef: {},
@@ -80,14 +101,14 @@ export default {
       ...methods()
     })
 
-    // let state1 = shallowReactive({
-    //   slider: null
-    // })
+    let state1 = shallowReactive({
+      slider: null
+    })
 
     onMounted(() => {
       setTimeout(() => {
         state.setSliderWidth(state)
-        state.initial(state)
+        state1.slider = state.initial(state, ctx)
         // // 
         // console.log(state1);
         // if (state.mode !== "Slide") {
@@ -96,7 +117,7 @@ export default {
       }, 200)
     })
 
-    return {...toRefs(state)}
+    return {...toRefs(state), ...state1}
   }
 }
 </script>
@@ -129,14 +150,15 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
+    background-color: transparent;
     .dots-item {
       margin-right: 5px;
       width: @dotsWidth;
       height: @dotsWidth;
       border-radius: 50%;
-      background-color: red;
+      background-color: rgba(0,0,0,0.2);
       &.active {
-        background-color: blue;
+        background-color: rgba(255,58,58,1);
       }
     }
   }

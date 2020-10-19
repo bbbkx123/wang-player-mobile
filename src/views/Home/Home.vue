@@ -81,7 +81,7 @@ export default {
         pullDownRefresh: {
           // stop: 200
         },
-        click: true,
+        // click: true,
       })
 
       state1.bscroll.on("pullingDown", () => {
