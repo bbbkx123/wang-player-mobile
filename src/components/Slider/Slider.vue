@@ -17,7 +17,12 @@
 </template>
 
 <script>
-import { onMounted, reactive, toRefs, shallowReactive } from "vue";
+import {
+  defineComponent,
+  onMounted,
+  reactive,
+  toRefs
+} from "vue";
 
 import BScroll from "@better-scroll/core";
 import Slide from "@better-scroll/slide";
@@ -27,52 +32,9 @@ const modeMap = new Map([
   ["", new Function()],
 ]);
 
-const initial = (state) => {
-  modeMap.get(state.mode)();
-  let slider = new BScroll(state.sliderRef, state.sliderConf);
-  let hooks = slider.scroller.actionsHandler.hooks;
+import "./index.less";
 
-  if (state.mode === "Slide") {
-    slider.on("slideWillChange", (page) => {
-      state.currentPageIndex = page.pageX;
-    });
-  }
-
-  if (state.handleStart instanceof Function) {
-    hooks.on("start", (event) => {
-      state.handleStart(event);
-    });
-  }
-
-  return slider;
-};
-
-const setSliderWidth = (state) => {
-  let width = 0;
-  let children = state.sliderGroupRef.children;
-  let sliderWidth = state.sliderRef.clientWidth;
-  let _width =
-    typeof state.sliderItemWidth === "number"
-      ? state.sliderItemWidth
-      : sliderWidth;
-  let _height = state.sliderItemHeight;
-  let needSetHeight = typeof _height === "number" && _height > 0;
-  state.dots = new Array(...state.sliderGroupRef.children);
-  for (let i = 0, len = children.length; i < len; i++) {
-    let child = children[i];
-    child.classList.add("slider-item");
-    child.style.width = `${_width}px`;
-    if (needSetHeight) child.style.height = `${_height}px`;
-    width += _width;
-  }
-  state.sliderGroupRef.style.width = `${width}px`;
-};
-
-const methods = () => {
-  return { initial, setSliderWidth };
-};
-
-export default {
+export default defineComponent({
   props: {
     // BScroll实例配置
     sliderConf: {
@@ -91,77 +53,66 @@ export default {
     sliderItemHeight: {
       type: Number,
       defalut: null,
-    },
-    handleStart: {
-      type: Function,
-      default: null,
-    },
+    }
   },
-  setup(props) {
+  emits: ["start"],
+  setup(props, { slots, emit, attrs }) {
     let state = reactive({
       sliderRef: {},
       sliderGroupRef: {},
-      currentPageIndex: 0,
+      currentPageIndex: null,
       dots: [],
-      ...props,
-      ...methods(),
     });
 
-    let state1 = shallowReactive({
-      slider: null,
-    });
+    function initial() {
+      modeMap.get(props.mode)();
+      let slider = new BScroll(state.sliderRef, props.sliderConf);
+      let hooks = slider.scroller.actionsHandler.hooks;
+
+      if (props.mode === "Slide") {
+        slider.on("slideWillChange", (page) => {
+          state.currentPageIndex = page.pageX;
+        });
+      }
+
+      hooks.on("start", (event) => {
+        emit("start", event)
+      });
+      
+      return slider;
+    }
+
+    function setSliderWidth() {
+      let width = 0;
+      let children = state.sliderGroupRef.children;
+      let sliderWidth = state.sliderRef.clientWidth;
+      let _width =
+        typeof props.sliderItemWidth === "number"
+          ? props.sliderItemWidth
+          : sliderWidth;
+      let _height = props.sliderItemHeight;
+      let needSetHeight = typeof _height === "number" && _height > 0;
+      state.dots = [...state.sliderGroupRef.children];
+      for (let i = 0, len = children.length; i < len; i++) {
+        let child = children[i];
+        child.classList.add("slider-item");
+        child.style.width = `${_width}px`;
+        if (needSetHeight) child.style.height = `${_height}px`;
+        width += _width;
+      }
+      state.sliderGroupRef.style.width = `${width}px`;
+    }
 
     onMounted(() => {
       setTimeout(() => {
-        state.setSliderWidth(state);
-        state1.slider = state.initial(state);
+        setSliderWidth(state);
+        let slider = initial(state);
       }, 200);
     });
 
-    return { ...toRefs(state), ...state1 };
+    return {
+      ...toRefs(state),
+    };
   },
-};
+});
 </script>
-
-<style lang="less">
-@dotsWidth: 8px;
-
-.slider {
-  position: relative;
-  .slider-wrapper {
-    width: 100%;
-    .slider-group {
-      position: relative;
-      overflow: hidden;
-      white-space: nowrap;
-      .slider-item {
-        float: left;
-        padding: 10px;
-        box-sizing: border-box;
-        & img {
-          width: 100%;
-          border-radius: 5px;
-        }
-      }
-    }
-  }
-  .dots {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    background-color: transparent;
-    .dots-item {
-      margin-right: 5px;
-      width: @dotsWidth;
-      height: @dotsWidth;
-      border-radius: 50%;
-      background-color: rgba(0, 0, 0, 0.2);
-      &.active {
-        background-color: rgba(255, 58, 58, 1);
-      }
-    }
-  }
-}
-</style>

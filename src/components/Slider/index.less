@@ -1,0 +1,40 @@
+@dotsWidth: 8px;
+
+.slider {
+  position: relative;
+  .slider-wrapper {
+    width: 100%;
+    .slider-group {
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      .slider-item {
+        float: left;
+        padding: 10px;
+        box-sizing: border-box;
+        & img {
+          width: 100%;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+  .dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    background-color: transparent;
+    .dots-item {
+      margin-right: 5px;
+      width: @dotsWidth;
+      height: @dotsWidth;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.2);
+      &.active {
+        background-color: rgba(255, 58, 58, 1);
+      }
+    }
+  }
+}

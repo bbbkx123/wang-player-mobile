@@ -13,7 +13,7 @@
       :sliderConf="iconSliderConf"
       :sliderItemWidth="100"
       :sliderItemHeight="100"
-      :handleStart="handleStart"
+      @start="handleStart"
     >
       <div
         v-for="(item, index) in iconSlider"
