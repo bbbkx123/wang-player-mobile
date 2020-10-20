@@ -22,9 +22,8 @@ const modeMap = new Map([
   ["", new Function()]
 ])
 
-const initial = (state, ctx) => {
-  const useMode = modeMap.get(state.mode)
-  useMode()
+const initial = (state) => {
+  modeMap.get(state.mode)()
   let slider =  new BScroll(state.sliderRef, state.sliderConf)
   let hooks = slider.scroller.actionsHandler.hooks
   
@@ -34,11 +33,9 @@ const initial = (state, ctx) => {
     })
   }
 
-  if (state.openHandleStart) {
+  if (state.handleStart instanceof Function) {
     hooks.on("start", event => {
-      debugger
-      ctx.emit("start")
-      
+      state.handleStart(event)
     })
   }
 
@@ -48,11 +45,11 @@ const initial = (state, ctx) => {
 const setSliderWidth = (state) => {
   let width = 0
   let children = state.sliderGroupRef.children
-  let sliderWidth = state.sliderRef.clientWidth
-  state.dots = new Array(...state.sliderGroupRef.children)
+  let sliderWidth = state.sliderRef.clientWidth  
   let _width = typeof state.sliderItemWidth === "number" ? state.sliderItemWidth : sliderWidth
   let _height = state.sliderItemHeight
   let needSetHeight = typeof _height === "number" && _height > 0
+  state.dots = new Array(...state.sliderGroupRef.children)
   for (let i = 0, len = children.length; i < len; i++) {
     let child = children[i]
     child.classList.add("slider-item")
@@ -69,10 +66,12 @@ const methods = () => {
 
 export default {
   props: {
+    // BScroll实例配置
     sliderConf: {
       type: Object,
       default: () => null
     },
+    // 模式: Slide(焦点轮播)
     mode: {
       type: String,
       default: ""  
@@ -85,18 +84,17 @@ export default {
       type: Number,
       defalut: null
     },
-    openHandleStart: {
-      type: Boolean,
-      default: false
+    handleStart: {
+      type: Function,
+      default: null
     }
   },
-  setup(props, ctx) {
+  setup(props) {
     let state = reactive({
       sliderRef: {},
       sliderGroupRef: {},
       currentPageIndex: 0,
       dots: [],
-      // slider: null,
       ...props,
       ...methods()
     })
@@ -108,12 +106,7 @@ export default {
     onMounted(() => {
       setTimeout(() => {
         state.setSliderWidth(state)
-        state1.slider = state.initial(state, ctx)
-        // // 
-        // console.log(state1);
-        // if (state.mode !== "Slide") {
-        //   state1.slider.scrollTo(1000,0)
-        // }
+        state1.slider = state.initial(state)
       }, 200)
     })
 

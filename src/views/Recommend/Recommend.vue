@@ -13,8 +13,7 @@
       :sliderConf="iconSliderConf"
       :sliderItemWidth="100"
       :sliderItemHeight="100"
-      
-      :openHandleStart="true"
+      :handleStart="handleStart"
     >
       <div
         v-for="(item, index) in iconSlider"
@@ -66,6 +65,10 @@ const getBanner = (state) => {
 
 //   })
 // }
+
+const handleStart = (event) => {
+  debugger
+}
 
 const setIcon = (state) => {
   state.iconSlider = [
@@ -121,13 +124,9 @@ export default {
       },
       icon: [],
       publicPath: process.env.BASE_URL,
-      // hanldeClick
+      handleStart
     });
 
-    // const hanldeClick = (routerName) => {
-    //   debugger
-    //   router.push({name: routerName})
-    // };
 
     // getPlayListTags(state)
     getBanner(state);
