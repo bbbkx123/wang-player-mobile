@@ -55,7 +55,7 @@ export default defineComponent({
       defalut: null,
     }
   },
-  emits: ["start"],
+  emits: ["hook-click"],
   setup(props, { slots, emit, attrs }) {
     let state = reactive({
       sliderRef: {},
@@ -75,8 +75,8 @@ export default defineComponent({
         });
       }
 
-      hooks.on("start", (event) => {
-        emit("start", event)
+      hooks.on("click", (event) => {
+        emit("hook-click", event)
       });
       
       return slider;
