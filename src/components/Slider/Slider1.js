@@ -7,6 +7,7 @@ import {
   unref,
 } from "vue";
 
+import {getSlot} from "common/js/util"
 import BScroll from "@better-scroll/core";
 import Slide from "@better-scroll/slide";
 
@@ -42,7 +43,7 @@ export default defineComponent({
   setup(props, { slots, emit, attrs }) {
     let refSlider = ref(null);
     let refSliderGroup = ref(null);
-    let currentPageIndex = ref(null);
+    let currentPageIndex = ref(0);
     let dots = ref([]);
 
     function initial() {
@@ -52,7 +53,7 @@ export default defineComponent({
 
       if (props.mode === "Slide") {
         slider.on("slideWillChange", (page) => {
-          currentPageIndex = page.pageX;
+          currentPageIndex.value = page.pageX;
         });
       }
 
@@ -64,14 +65,9 @@ export default defineComponent({
     }
 
     function setSliderWidth() {
-      
-
-      
-    // console.log(fn);
 
       let elRefSlider = unref(refSlider);
       let elRefSliderGroup = unref(refSliderGroup);
-
       let width = 0;
       let children = elRefSliderGroup.children;
       let sliderWidth = elRefSlider.clientWidth;
@@ -81,7 +77,8 @@ export default defineComponent({
           : sliderWidth;
       let _height = props.sliderItemHeight;
       let needSetHeight = typeof _height === "number" && _height > 0;
-      dots = new Array(elRefSliderGroup.children);
+      dots.value = [...elRefSliderGroup.children].map(() => true)
+      
       for (let i = 0, len = children.length; i < len; i++) {
         let child = children[i];
         child.classList.add("slider-item");
@@ -92,29 +89,11 @@ export default defineComponent({
       elRefSliderGroup.style.width = `${width}px`;
     }
 
-    function getSlot(slots, slot = 'default', data) {
-      if (!slots || !Reflect.has(slots, slot)) {
-        return null;
-      }
-
-      if (typeof slots[slot] !== 'function') {
-        console.error(`${slot} is not a function!`);
-        return null;
-      }
-      const slotFn = slots[slot];
-      if (!slotFn) return null;
-      return slotFn(data);
-    }
-
-    // console.log(getSlot(slots, "default"));
-
-    
-
     onMounted(() => {
       setTimeout(() => {
         setSliderWidth();
-        let slider = initial();
-      }, 200);
+        initial();
+      }, 20);
     });
 
     return () => (
@@ -124,21 +103,25 @@ export default defineComponent({
             {getSlot(slots)}
           </div>
         </div>
-        {props.mode && unref(refSliderGroup) && (
-          <div class="dots">
-            {unref(dots).map((dot, index) => {
-              return (
-                <div
-                  key={index}
-                  classList={{
-                    active: unref(currentPageIndex) === index,
-                    "dots-item": true,
-                  }}
-                ></div>
-              );
-            })}
-          </div>
-        )}
+        {
+          props.mode === "Slide" && dots.value.length > 0 ? (
+            <div class="dots">
+              {
+                dots.value.map((dot, index) => {
+                  return (
+                    <div
+                      key={index}
+                      class={{
+                        active: currentPageIndex.value === index,
+                        "dots-item": true,
+                      }}
+                    ></div>
+                  );
+                })
+              }
+            </div>
+          ) : ''
+        }
       </div>
     );
   },

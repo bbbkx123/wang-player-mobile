@@ -24,9 +24,6 @@
 </template>
 
 <script>
-// import Slider from "components/Slider"
-// import Mine from "views/Mine"
-// import Recommend from "views/Recommend"
 import { reactive, shallowReactive, toRefs, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import BScroll from "@better-scroll/core"
@@ -78,6 +75,9 @@ export default {
       state1.bscroll = new BScroll(state.pullDownWrapper, {
         scrollY: true,
         scrollX: false,
+        // 锁定方向
+        directionLockThreshold: 0,
+        freeScroll: false,
         pullDownRefresh: {
           // stop: 200
         },

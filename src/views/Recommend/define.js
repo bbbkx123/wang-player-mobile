@@ -19,6 +19,18 @@ export const iconSlider = [
     name: "电台",
     to: "",
   },
+  {
+    name: "数字专辑",
+    to: "",
+  },
+  {
+    name: "唱聊",
+    to: "",
+  },
+  {
+    name: "游戏专区",
+    to: "",
+  },
 ];
 
 export let bannerConf = {

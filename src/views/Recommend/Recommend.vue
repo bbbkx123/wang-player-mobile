@@ -10,14 +10,14 @@
     <Slider
       ref="iconSliderRef"
       :sliderConf="iconSliderConf"
-      :sliderItemWidth="100"
-      :sliderItemHeight="100"
+      :sliderItemWidth="85"
+      :sliderItemHeight="85"
       @hook-click="handleClick"
     >
       <div v-for="(item, index) in iconSlider" :key="index" class="icon-item">
         <img
           style="width: 80%; height: 80%"
-          :src="`${publicPath}icon/${item.name}.png`"
+          :src="`${publicPath}image/${item.name}.png`"
           alt=""
         />
       </div>
