@@ -11,3 +11,7 @@ export function getSlot(slots, slot = 'default', data) {
   if (!slotFn) return null;
   return slotFn(data);
 }
+
+export function toPage (router, pageName) {
+  router.push({name: pageName})
+}

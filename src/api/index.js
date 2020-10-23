@@ -5,56 +5,56 @@ import {get} from './http'
 //  * 获取喜欢音乐列表
 //  * @param {String, Number} uid 用户id
 //  */
-// export const getLikeList = (uid) => axios.get('/likelist', {params: {uid}})
+// export const getLikeList = (uid) => get('/likelist', {params: {uid}})
 
 // /**
 //  * 获取歌曲详情
 //  * @param {String} ids 歌曲id  ids=xxx,xxxx,...
 //  */
-// export const getSongsDetail = (ids) => axios.get('/song/detail', {params: {ids}})
+// export const getSongsDetail = (ids) => get('/song/detail', {params: {ids}})
 
 // /**
 //  * 登录
 //  * @param {String} phone 
 //  * @param {String} password 
 //  */
-// export const login = (phone, password) => axios.get('/login/cellphone', {params: {password, phone}})
+// export const login = (phone, password) => get('/login/cellphone', {params: {password, phone}})
 
 // /**
 //  * 用户歌单列表
 //  * @param {String} uid 用户id
 //  */
-// export const getPlayList = (uid) => axios.get('/user/playlist', {params: {uid}})
+// export const getPlayList = (uid) => get('/user/playlist', {params: {uid}})
 
 // /**
 //  * 获取歌曲url
 //  * @param {String} id 歌曲id 
 //  */
-// export const getSongUrl = (id) => axios.get('/song/url', {params: {id}})
+// export const getSongUrl = (id) => get('/song/url', {params: {id}})
 
-// /**
-//  * 获取歌单详情
-//  * @param {String} id 歌单id
-//  * @param {Number} s 歌单最近的 s 个收藏者 (可选)
-//  * 
-//  * response:
-//  *    trackIds是完整的id，tracks 则是不完整的
-//  */
-// export const getPlayListDetail = (id) => axios.get('/playlist/detail', {params: {id}})
+/**
+ * 获取歌单详情
+ * @param {String} id 歌单id
+ * @param {Number} s 歌单最近的 s 个收藏者 (可选)
+ * 
+ * response:
+ *    trackIds是完整的id，tracks 则是不完整的
+ */
+export const getPlayListDetail = (id) => get('/playlist/detail', {params: {id}})
 
 // /**
 //  * 获取歌词
 //  * @param {String} id 歌曲id
 //  * 
 //  */
-// export const getLyric = (id) => axios.get('/lyric', {params: {id}})
+// export const getLyric = (id) => get('/lyric', {params: {id}})
 
 // /**
 //  * 推荐歌单
 //  * @param {Number} limit 取出数量
 //  * 
 //  */
-// export const getPersonalized = (limit) => axios.get('/personalized', {params: {limit}})
+// export const getPersonalized = (limit) => get('/personalized', {params: {limit}})
 
 /**
  * 获取banner
@@ -82,7 +82,7 @@ export const ApiGetBanner = (type) => get('/banner', {params: {type}})
 //  * 10   专辑
 //  * 
 //  */
-// export const getSearchResult = (keywords, limit, offset) => axios.get('/search', {params: {keywords, limit, offset}})
+// export const getSearchResult = (keywords, limit, offset) => get('/search', {params: {keywords, limit, offset}})
 
 /**
  * 获取精品歌单
@@ -103,7 +103,7 @@ export const ApiGetPlayListTags = () => get('/playlist/highquality/tags')
 //  * 歌单分类
 //  * 
 //  */
-// export const getPlayListCatList = () => axios.get('/playlist/catlist')
+// export const getPlayListCatList = () => get('/playlist/catlist')
 
 // /**
 //  * 歌曲评论
@@ -113,5 +113,5 @@ export const ApiGetPlayListTags = () => get('/playlist/highquality/tags')
 //  * @param {Number} before 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
 //  * 
 //  */
-// export const getMusicComment = (id, limit, offset, before) => axios.get('/comment/music', {params: {id, limit, offset, before}})
+// export const getMusicComment = (id, limit, offset, before) => get('/comment/music', {params: {id, limit, offset, before}})
 
