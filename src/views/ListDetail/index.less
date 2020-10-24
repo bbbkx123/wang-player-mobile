@@ -1,0 +1,33 @@
+@coverImgUrlWidth: 185px;
+
+.detail-wrapper {
+  position: relative;
+  .detail-background {
+    position: absolute;
+    z-index: 0;
+  }
+  .detail {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    padding: 0 10px;
+    background-color: transparent;
+    // box-sizing: border-box;
+    .coverImg{
+      width: @coverImgUrlWidth;
+      height: @coverImgUrlWidth;
+      & > img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+      }
+    }
+    .info {
+      margin-left: 20px;
+      width: calc(100% - 40px - @coverImgUrlWidth);
+      > div {
+        background-color: transparent !important;
+      }
+    }
+  }
+}

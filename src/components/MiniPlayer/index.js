@@ -1,2 +1,2 @@
-import MiniPlayer from "./MiniPlayer"
+import MiniPlayer from "./MiniPlayer.jsx"
 export default MiniPlayer

@@ -1,2 +1,2 @@
-import SongList from "./SongList";
+import SongList from "./SongList.jsx";
 export default SongList

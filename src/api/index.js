@@ -40,7 +40,7 @@ import {get} from './http'
  * response:
  *    trackIds是完整的id，tracks 则是不完整的
  */
-export const getPlayListDetail = (id) => get('/playlist/detail', {params: {id}})
+export const ApiPlayListDetail = (id) => get('/playlist/detail', {params: {id}})
 
 // /**
 //  * 获取歌词

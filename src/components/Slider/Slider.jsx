@@ -89,22 +89,21 @@ export default defineComponent({
     })
 
     return () => (
-      <div class="slider">
-        <div class="slider-wrapper" ref={refSlider}>
-          <div class="slider-group" ref={refSliderGroup}>
+      <div className="slider">
+        <div className="slider-wrapper" ref={refSlider}>
+          <div className="slider-group" ref={refSliderGroup}>
             {getSlot(slots)}
           </div>
         </div>
         {props.mode === "Slide" && dots.value.length > 0 && (
           <div class="dots">
             {dots.value.map((dot, index) => {
+              let _class = currentPageIndex.value === index ? 'active' : ''
+              _class += ' dots-item'
               return (
                 <div
                   key={index}
-                  class={{
-                    active: currentPageIndex.value === index,
-                    "dots-item": true,
-                  }}
+                  className={_class}
                 ></div>
               )
             })}
