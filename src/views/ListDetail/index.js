@@ -1,2 +1,2 @@
-import ListDetail from "./ListDetail"
+import ListDetail from "./ListDetail.jsx"
 export default ListDetail

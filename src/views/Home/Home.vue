@@ -72,6 +72,7 @@ export default {
     let state1 = shallowReactive({bscroll: null})
 
     onMounted(() => {
+      // debugger
       state1.bscroll = new BScroll(state.pullDownWrapper, {
         scrollY: true,
         scrollX: false,

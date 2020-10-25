@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
-    <MiniPlayer />
+    <!-- <MiniPlayer /> -->
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import MiniPlayer from "./components/MiniPlayer"
 
 export default {
   components: {
-    MiniPlayer
+    // MiniPlayer
   }
 }
 </script>

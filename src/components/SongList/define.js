@@ -1,5 +1,5 @@
 export const props = {
-  song: {
+  source: {
     type: Array,
     default: () => []
   }

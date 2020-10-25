@@ -7,11 +7,11 @@ import {get} from './http'
 //  */
 // export const getLikeList = (uid) => get('/likelist', {params: {uid}})
 
-// /**
-//  * 获取歌曲详情
-//  * @param {String} ids 歌曲id  ids=xxx,xxxx,...
-//  */
-// export const getSongsDetail = (ids) => get('/song/detail', {params: {ids}})
+/**
+ * 获取歌曲详情
+ * @param {String} ids 歌曲id  ids=xxx,xxxx,...
+ */
+export const ApiSongsDetail = (ids) => get('/song/detail', {params: {ids}})
 
 // /**
 //  * 登录
