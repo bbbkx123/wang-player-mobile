@@ -1,5 +1,7 @@
+@import '../../common/css/common.less';
+
 @coverImgUrlWidth: 185px;
-@height: 75px;
+@height: 50px;
 
 @indexWidth: 50px;
 @editWidth: 50px;
@@ -15,7 +17,20 @@
     height: 300px;
     .detail-background {
       position: absolute;
+      top: -@headerHeight;
       z-index: 0;
+      opacity: 0.5;
+      filter: blur(50px);
+      width: 100%;
+      height: calc(100% + @headerHeight);
+      overflow: hidden;
+    }
+    &::before {
+      display: block;
+      content: '';
+      width: auto;
+      height: @headerHeight;
+      overflow: hidden;
     }
     .detail {
       position: absolute;
@@ -43,8 +58,12 @@
   .song-list {
     width: 100%;
     height: 1500px;
+    background-color: rgb(21,21,21);
     .song-item {
       display: flex;
+      margin-bottom: 25px;
+      padding-top: 5px;
+      box-sizing: border-box;
       width: 100%;
       height: @height;
       .index {
