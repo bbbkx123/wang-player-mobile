@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <Header mode="list-detail"></Header>
     <router-view/>
     <!-- <MiniPlayer /> -->
   </div>
@@ -8,11 +7,11 @@
 
 <script>
 import MiniPlayer from "./components/MiniPlayer"
-import Header from "components/Header"
+// import Header from "components/Header"
 
 export default {
   components: {
-    Header
+    // Header
     // MiniPlayer
   }
 }

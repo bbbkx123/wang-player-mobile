@@ -4,6 +4,7 @@ import { props } from "./define"
 import { ApiPlayListDetail, ApiSongsDetail } from "api"
 
 import SongList from "components/SongList"
+import Header from "components/Header"
 
 import "./index.less"
 import BScroll from "@better-scroll/core"
@@ -40,43 +41,6 @@ export default defineComponent({
     }
 
     getPlayListDetail()
-
-    function Detail() {
-      let _detail = unref(detail)
-      return (
-        <div className="detail-wrapper">
-          <div
-            className="detail-background"
-            style={{
-              backgroundImage: `url(http://p1.music.126.net/_OeJZZUF-MGLVh66X5FNXQ==/109951165423758223.jpg)`,
-              // opacity: 0.5,
-              // filter: "blur(10px)",
-              // width: "100%",
-              // height: "100%",
-              // overflow: 'hidden'
-            }}
-          ></div>
-          <div className="detail">
-            <div className="coverImg">
-              <img src={_detail.coverImgUrl} alt="" />
-            </div>
-            <div className="info">
-              <div>{_detail.name}</div>
-              <div>{_detail.nickname}</div>
-              <div>
-                <img
-                  style={{ width: "30px", height: "30px", borderRadius: "50%" }}
-                  src={_detail.avatarUrl}
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-          <div className="edit"></div>
-        </div>
-      )
-    }
-
     onMounted(() => {
       setTimeout(() => {
         // 此步骤快于数据设置
@@ -88,17 +52,42 @@ export default defineComponent({
           momentum: true,
         })
 
-        scroll.on("scroll", ({ y }) => {
-          console.log("scrolling-")
-        })
-      }, 200)
+        // scroll.on("scroll", ({ y }) => {
+        //   console.log("scrolling-")
+        // })
+      }, 500)
     })
 
     return () => (
-      // <div>
+      <div style="height:100%;">
+        <Header mode="list-detail"></Header>
         <div className="list-detail" ref={listDetailRef}>
           <div className="list-detail-content">
-            {Detail()}
+          <div className="detail-wrapper">
+          <div
+            className="detail-background"
+            style={{
+              backgroundImage: `url(http://p1.music.126.net/_OeJZZUF-MGLVh66X5FNXQ==/109951165423758223.jpg)`
+            }}
+          ></div>
+          <div className="detail">
+            <div className="coverImg">
+              <img src={detail.value.coverImgUrl} alt="" />
+            </div>
+            <div className="info">
+              <div>{detail.value.name}</div>
+              <div>{detail.value.nickname}</div>
+              <div>
+                <img
+                  style={{ width: "30px", height: "30px", borderRadius: "50%" }}
+                  src={detail.value.avatarUrl}
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <div className="edit"></div>
+        </div>
             <div className="song-list">
               {ListData.value.map((item, index) => {
                 return (
@@ -123,7 +112,7 @@ export default defineComponent({
             </div>
           </div>
         </div>
-      // </div>
+      </div>
     )
   },
 })

@@ -1,7 +1,7 @@
 <template>
   <div class="home" ref="">
     <div class="home-wrapper">
-      <div class="header">
+      <div class="navigation">
         <div class="trigger"></div>
         <div class="tabs">
           <div
@@ -119,7 +119,7 @@ export default {
     overflow-x: hidden;
     // overflow-y: scroll;
     height: 100%;
-    .header {
+    .navigation {
       width: 100%;
       height: @headerHeight;
       display: flex;
