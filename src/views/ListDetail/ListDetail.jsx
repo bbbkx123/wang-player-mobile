@@ -1,7 +1,8 @@
 import { defineComponent, ref, reactive, unref, computed, onMounted } from "vue"
+import { useStore } from 'vuex';
 import { props } from "./define"
 
-import { ApiPlayListDetail, ApiSongsDetail } from "api"
+import { ApiPlayListDetail, ApiSongUrl } from "api"
 
 import SongList from "components/SongList"
 import Header from "components/Header"
@@ -16,8 +17,10 @@ export default defineComponent({
     let detail = ref({})
     let ListData = ref([])
     let listDetailRef = ref(null)
+    let store = useStore()
+    console.log(store);
 
-    function getPlayListDetail() {
+    const getPlayListDetail = () => {
       return ApiPlayListDetail(3159790268).then((res) => {
         let { coverImgUrl, name, trackIds, tracks } = res.data.playlist
         let { avatarUrl, nickname } = res.data.playlist.creator
@@ -38,6 +41,15 @@ export default defineComponent({
           }
         })
       })
+    }
+
+    const handlePlay = (index) => {
+      return () => {
+        let {id} = detail.value.trackIds[index]
+        ApiSongUrl(id).then(res => {
+          store.commit('PLAYER_URL', res.data.data[0].url)
+        })
+      }
     }
 
     getPlayListDetail()
@@ -63,36 +75,40 @@ export default defineComponent({
         <Header mode="list-detail"></Header>
         <div className="list-detail" ref={listDetailRef}>
           <div className="list-detail-content">
-          <div className="detail-wrapper">
-          <div
-            className="detail-background"
-            style={{
-              backgroundImage: `url(http://p1.music.126.net/_OeJZZUF-MGLVh66X5FNXQ==/109951165423758223.jpg)`
-            }}
-          ></div>
-          <div className="detail">
-            <div className="coverImg">
-              <img src={detail.value.coverImgUrl} alt="" />
-            </div>
-            <div className="info">
-              <div>{detail.value.name}</div>
-              <div>{detail.value.nickname}</div>
-              <div>
-                <img
-                  style={{ width: "30px", height: "30px", borderRadius: "50%" }}
-                  src={detail.value.avatarUrl}
-                  alt=""
-                />
+            <div className="detail-wrapper">
+              <div
+                className="detail-background"
+                style={{
+                  backgroundImage: `url(${detail.value.coverImgUrl})`,
+                }}
+              ></div>
+              <div className="detail">
+                <div className="coverImg">
+                  <img src={detail.value.coverImgUrl} alt="" />
+                </div>
+                <div className="info">
+                  <div>{detail.value.name}</div>
+                  <div>{detail.value.nickname}</div>
+                  <div>
+                    <img
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        borderRadius: "50%",
+                      }}
+                      src={detail.value.avatarUrl}
+                      alt=""
+                    />
+                  </div>
+                </div>
               </div>
+              <div className="edit"></div>
             </div>
-          </div>
-          <div className="edit"></div>
-        </div>
             <div className="song-list">
               {ListData.value.map((item, index) => {
                 return (
-                  <div className="song-item">
-                    <div className="index"></div>
+                  <div className="song-item" onClick={handlePlay(index)}>
+                    <div className="index">{index + 1}</div>
                     <div className="main">
                       <div className="song-name">{item.name}</div>
                       <div className="other-info">

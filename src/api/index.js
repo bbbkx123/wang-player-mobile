@@ -26,11 +26,11 @@ export const ApiSongsDetail = (ids) => get('/song/detail', {params: {ids}})
 //  */
 // export const getPlayList = (uid) => get('/user/playlist', {params: {uid}})
 
-// /**
-//  * 获取歌曲url
-//  * @param {String} id 歌曲id 
-//  */
-// export const getSongUrl = (id) => get('/song/url', {params: {id}})
+/**
+ * 获取歌曲url
+ * @param {String} id 歌曲id 
+ */
+export const ApiSongUrl = (id) => get('/song/url', {params: {id}})
 
 /**
  * 获取歌单详情

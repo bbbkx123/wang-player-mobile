@@ -1,18 +1,18 @@
 <template>
   <div id="app">
     <router-view/>
-    <!-- <MiniPlayer /> -->
+    <MiniPlayerViews />
+    <Player/>
   </div>
 </template>
 
 <script>
-import MiniPlayer from "./components/MiniPlayer"
-// import Header from "components/Header"
+import MiniPlayerViews from "./components/MiniPlayerViews"
+import Player from "./components/Player"
 
 export default {
   components: {
-    // Header
-    // MiniPlayer
+    MiniPlayerViews, Player
   }
 }
 </script>
