@@ -1,0 +1,3 @@
+export const PLAYER_SONG_URL = 'PLAYER_SONG_URL'
+
+export const PLAYER_SONG_PIC = 'PLAYER_SONG_PIC'

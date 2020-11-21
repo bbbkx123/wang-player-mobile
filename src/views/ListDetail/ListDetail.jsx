@@ -3,6 +3,7 @@ import { useStore } from 'vuex';
 import { props } from "./define"
 
 import { ApiPlayListDetail, ApiSongUrl } from "api"
+import {all} from "api/http"
 
 import SongList from "components/SongList"
 import Header from "components/Header"
@@ -18,7 +19,6 @@ export default defineComponent({
     let ListData = ref([])
     let listDetailRef = ref(null)
     let store = useStore()
-    console.log(store);
 
     const getPlayListDetail = () => {
       return ApiPlayListDetail(3159790268).then((res) => {
@@ -40,6 +40,8 @@ export default defineComponent({
             album: item.al,
           }
         })
+
+
       })
     }
 
@@ -47,7 +49,11 @@ export default defineComponent({
       return () => {
         let {id} = detail.value.trackIds[index]
         ApiSongUrl(id).then(res => {
-          store.commit('PLAYER_URL', res.data.data[0].url)
+          store.commit('PLAYER_SONG_URL', )
+          store.dispatch('selectPlay', {
+            url: res.data.data[0].url,
+            pic: ListData.value[index].album.picUrl
+          })
         })
       }
     }

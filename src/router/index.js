@@ -26,6 +26,11 @@ const routes = [
     path: "/listdetail",
     name: "listdetail",
     component: () => import("views/ListDetail")
+  },
+  {
+    path: "/playpage",
+    name: "playpage",
+    component: () => import("views/PlayPage")
   }
 ]
 

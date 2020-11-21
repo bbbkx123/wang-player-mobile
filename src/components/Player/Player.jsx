@@ -21,7 +21,7 @@ export default defineComponent({
       Object.assign(audioRef, {
         src: store.state.player.url,
         autoplay: false,
-        volume: 0.1,
+        volume: 0,
       })
     }
 

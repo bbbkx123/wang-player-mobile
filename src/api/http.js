@@ -35,3 +35,7 @@ export const get = (url, params) => {
     return Promise.reject(res)
   })
 }
+
+export const all = (promiseArr, cb) => {
+  return Axios.all(promiseArr).then(Axios.spread(cb))
+}
