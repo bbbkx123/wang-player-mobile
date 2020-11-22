@@ -119,17 +119,19 @@ export default {
     overflow-x: hidden;
     // overflow-y: scroll;
     height: 100%;
-    &::before {
-      display: block;
-      content: '';
-      overflow: hidden;
-      height: @headerHeight;
-      width: 100%;
-    }
+    // &::before {
+    //   display: block;
+    //   content: '';
+    //   overflow: hidden;
+    //   height: @headerHeight;
+    //   width: 100%;
+    // }
+
+
     .navigation {
-      position: fixed;
-      top: 0;
-      z-index: 1000;
+      // position: fixed;
+      // top: 0;
+      // z-index: 1000;
       display: flex;
       width: 100%;
       height: @headerHeight;

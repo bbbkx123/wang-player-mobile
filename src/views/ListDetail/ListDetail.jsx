@@ -1,4 +1,4 @@
-import { defineComponent, ref, reactive, unref, computed, onMounted } from "vue"
+import { defineComponent, ref, reactive, unref, computed, onMounted, onUpdated, onBeforeUnmount } from "vue"
 import { useStore } from 'vuex';
 import { props } from "./define"
 
@@ -6,7 +6,6 @@ import { ApiPlayListDetail, ApiSongUrl } from "api"
 import {all} from "api/http"
 
 import SongList from "components/SongList"
-import Header from "components/Header"
 
 import "./index.less"
 import BScroll from "@better-scroll/core"
@@ -49,11 +48,13 @@ export default defineComponent({
       return () => {
         let {id} = detail.value.trackIds[index]
         ApiSongUrl(id).then(res => {
-          store.commit('PLAYER_SONG_URL', )
-          store.dispatch('selectPlay', {
+          store.dispatch('player/selectPlay', {
             url: res.data.data[0].url,
             pic: ListData.value[index].album.picUrl
           })
+          console.log('开始播放了');
+        }, err => {
+          console.log('报错了');
         })
       }
     }
@@ -76,9 +77,17 @@ export default defineComponent({
       }, 500)
     })
 
+    onUpdated(() => {
+      store.commit("page/SHOW_HEADER", true)
+      // console.log(store.state.page);
+    })
+
+    onBeforeUnmount(() => {
+      store.commit("page/SHOW_HEADER", false)
+    })
+
     return () => (
       <div style="height:100%;">
-        <Header mode="list-detail"></Header>
         <div className="list-detail" ref={listDetailRef}>
           <div className="list-detail-content">
             <div className="detail-wrapper">

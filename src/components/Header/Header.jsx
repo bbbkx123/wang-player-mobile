@@ -1,16 +1,27 @@
-import { defineComponent, ref } from "vue"
-import {useRouter} from 'vue-router'
+import { defineComponent, ref , watch} from "vue"
+import { useRouter } from "vue-router"
 
-import {props} from './define'
+import { props } from "./define"
 import "./index.less"
 
 export default defineComponent({
   props,
   setup(props) {
     let router = useRouter()
-    function back () {
+    let show = ref(props.show)
+    function back() {
       router.back()
     }
+
+    // watch(
+    //   () => props.show,
+    //   (newValue, oldValue) => {
+    //     debugger
+    //     if (newValue) {
+    //       // audioRef.value.src = newValue
+    //     }
+    //   }
+    // )
 
     function HeaderListDetail() {
       return (
@@ -28,10 +39,15 @@ export default defineComponent({
       )
     }
 
-    return () => <div className="header">
-      {
-        props.mode === "list-detail" && HeaderListDetail() 
-      }
-    </div>
+    // console.log(show.value);
+
+    return () =>
+      props.show && (
+        <div className="header">
+          <span>{show.value ?"true": "false"}</span>
+          {/* props.mode === "list-detail" &&  */}
+          {HeaderListDetail()}
+        </div>
+      )
   },
 })

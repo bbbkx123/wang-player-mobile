@@ -1,16 +1,14 @@
 
 import actions from "./actions"
 import mutations from "./mutations"
+import getters from "./getters"
 
 export default {
+  namespaced: true,
   state: {
     url: ''
   },
   mutations,
-  getters: {
-    url () {
-      return this.state.url
-    }
-  },
+  getters,
   actions
 }

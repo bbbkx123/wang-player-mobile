@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header :show="showHeader"></Header>
     <router-view/>
     <MiniPlayerViews />
     <Player/>
@@ -9,10 +10,23 @@
 <script>
 import MiniPlayerViews from "./components/MiniPlayerViews"
 import Player from "./components/Player"
+import Header from "./components/Header"
+import {useStore} from "vuex"
+
+
 
 export default {
   components: {
-    MiniPlayerViews, Player
+    MiniPlayerViews, Player, Header
+  },
+  computed: {
+    showHeader () {
+      let store = useStore()
+      return store.state.page.showHeader
+    }
+  },
+  mounted () {
+    // console.log(this.$store);
   }
 }
 </script>
