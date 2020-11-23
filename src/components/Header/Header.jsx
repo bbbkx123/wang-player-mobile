@@ -8,20 +8,9 @@ export default defineComponent({
   props,
   setup(props) {
     let router = useRouter()
-    let show = ref(props.show)
     function back() {
       router.back()
     }
-
-    // watch(
-    //   () => props.show,
-    //   (newValue, oldValue) => {
-    //     debugger
-    //     if (newValue) {
-    //       // audioRef.value.src = newValue
-    //     }
-    //   }
-    // )
 
     function HeaderListDetail() {
       return (
@@ -44,7 +33,6 @@ export default defineComponent({
     return () =>
       props.show && (
         <div className="header">
-          <span>{show.value ?"true": "false"}</span>
           {/* props.mode === "list-detail" &&  */}
           {HeaderListDetail()}
         </div>

@@ -1,7 +1,6 @@
 <template>
   <div class="home" ref="">
-    <div class="home-wrapper">
-      <div class="navigation">
+    <div class="navigation">
         <div class="trigger"></div>
         <div class="tabs">
           <div
@@ -16,6 +15,8 @@
         </div>
         <div class="search"></div>
       </div>
+    <div class="home-wrapper">
+      
       <div ref="pullDownWrapper" class="pull-down-wrapper">
         <router-view></router-view>
       </div>
@@ -93,14 +94,6 @@ export default {
       state1.bscroll.on("scroll", () => {
         // console.log("scroll");
       })
-
-      // state1.bscroll.on("scroll-end", () => {
-      //   console.log("scroll-end");
-      // })
-
-      // setTimeout(() => {
-      //   state1.scroll.scrollTo(0, 10000)
-      // }, 2000)
     })
 
     return { ...toRefs(state), state1 };

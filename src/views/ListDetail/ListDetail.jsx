@@ -16,7 +16,7 @@ export default defineComponent({
   setup(props) {
     let detail = ref({})
     let ListData = ref([])
-    let listDetailRef = ref(null)
+    let listDetailRef = ref(null)    
     let store = useStore()
 
     const getPlayListDetail = () => {
@@ -40,7 +40,8 @@ export default defineComponent({
           }
         })
 
-
+        // 背景图片
+        store.commit("page/BACKGROUND_IMAGE", detail.value.coverImgUrl)
       })
     }
 
@@ -91,12 +92,6 @@ export default defineComponent({
         <div className="list-detail" ref={listDetailRef}>
           <div className="list-detail-content">
             <div className="detail-wrapper">
-              <div
-                className="detail-background"
-                style={{
-                  backgroundImage: `url(${detail.value.coverImgUrl})`,
-                }}
-              ></div>
               <div className="detail">
                 <div className="coverImg">
                   <img src={detail.value.coverImgUrl} alt="" />
