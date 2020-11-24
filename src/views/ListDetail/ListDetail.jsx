@@ -1,14 +1,13 @@
-import { defineComponent, ref, reactive, unref, computed, onMounted, onUpdated, onBeforeUnmount } from "vue"
+import { defineComponent, ref, onMounted, onUpdated, onBeforeUnmount } from "vue"
 import { useStore } from 'vuex';
 import { props } from "./define"
 
 import { ApiPlayListDetail, ApiSongUrl } from "api"
-import {all} from "api/http"
 
 import SongList from "components/SongList"
 
-import "./index.less"
 import BScroll from "@better-scroll/core"
+import "./index.less"
 
 export default defineComponent({
   props,
@@ -20,7 +19,7 @@ export default defineComponent({
     let store = useStore()
 
     const getPlayListDetail = () => {
-      return ApiPlayListDetail(3159790268).then((res) => {
+      return ApiPlayListDetail(453208524).then((res) => {
         let { coverImgUrl, name, trackIds, tracks } = res.data.playlist
         let { avatarUrl, nickname } = res.data.playlist.creator
         detail.value = {
@@ -32,16 +31,13 @@ export default defineComponent({
           tracks,
         }
 
-        ListData.value = detail.value.tracks.map((item) => {
+        ListData.value = tracks.map((item) => {
           return {
             name: item.name,
             artist: item.ar,
             album: item.al,
           }
         })
-
-        // 背景图片
-        store.commit("page/BACKGROUND_IMAGE", detail.value.coverImgUrl)
       })
     }
 
@@ -60,10 +56,9 @@ export default defineComponent({
       }
     }
 
-    getPlayListDetail()
     onMounted(() => {
       setTimeout(() => {
-        // 此步骤快于数据设置
+        // 此步骤快于数据设置, 保证在最后执行
         let scroll = new BScroll(listDetailRef.value, {
           probeType: 3,
           click: true,
@@ -71,24 +66,27 @@ export default defineComponent({
           scrollY: true,
           momentum: true,
         })
-
-        // scroll.on("scroll", ({ y }) => {
-        //   console.log("scrolling-")
-        // })
       }, 500)
     })
 
     onUpdated(() => {
+      // 显示header
       store.commit("page/SHOW_HEADER", true)
-      // console.log(store.state.page);
+      store.commit('page/HEADER_MODE', 'list-details')
+      // 设置背景图片
+      store.commit("page/BG_IMG", detail.value.coverImgUrl)
     })
 
     onBeforeUnmount(() => {
       store.commit("page/SHOW_HEADER", false)
+      store.commit('page/HEADER_MODE', '')
+      store.commit("page/BG_IMG", "")
     })
 
+    getPlayListDetail()
+
     return () => (
-      <div style="height:100%;">
+      <div>
         <div className="list-detail" ref={listDetailRef}>
           <div className="list-detail-content">
             <div className="detail-wrapper">

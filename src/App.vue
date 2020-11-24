@@ -1,8 +1,8 @@
 <template>
   <div class="app" >
-    <div class="background-image" :style="{'backgroundImage': backgroundImage ? `url(${backgroundImage}?param=375y700,)` : 'none'}"></div>
-    <Header :show="showHeader"></Header>
-    <router-view/>
+    <div class="background-image" :style="{'background-image': bgImage ? `url(${bgImage}?param=375y700,)` : ''}"></div>
+    <Header :show="showHeader" :mode="headerMode"></Header>
+    <router-view class="views"/>
     <MiniPlayerViews />
     <Player/>
   </div>
@@ -14,8 +14,6 @@ import Player from "./components/Player"
 import Header from "./components/Header"
 import {useStore} from "vuex"
 
-
-
 export default {
   components: {
     MiniPlayerViews, Player, Header
@@ -25,9 +23,13 @@ export default {
       let store = useStore()
       return store.state.page.showHeader
     },
-    backgroundImage () {
+    headerMode () {
       let store = useStore()
-      return store.state.page.backgroundImage
+      return store.state.page.headerMode
+    },
+    bgImage () {
+      let store = useStore()
+      return store.state.page.bgImage
     }
   },
   mounted () {
@@ -41,10 +43,12 @@ export default {
   position: absolute;
   z-index: 0;
   top: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   width: 100%;
   height: 100%;
   background-color: rgb(21,21,21);
-  
   .background-image {
     position: absolute;
     width: 100%;
@@ -52,6 +56,9 @@ export default {
     opacity: 0.5;
     z-index: -100;
     filter: blur(50px);
+  }
+  .views {
+    height: calc(100% - 8% - 50px);
   }
 }
 </style>

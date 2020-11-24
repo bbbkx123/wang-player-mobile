@@ -22,3 +22,31 @@
     align-items: center;
   }
 }
+
+.navigation {
+  display: flex;
+  width: 100%;
+  height: @headerHeight;
+  background-color: #151515;
+  .trigger {
+    width: 20%;
+  }
+  .tabs {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    .tab-item {
+      width: 25%;
+      font-size: 18px;
+      line-height: @headerHeight;
+      text-align: center;
+      &.tab-active {
+        font-weight: bold;
+        font-size: 22px;
+      }
+    }
+  }
+  .search {
+    width: 20%;
+  }
+}
