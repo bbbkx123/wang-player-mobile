@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { reactive, shallowReactive, toRefs, onMounted, onUnmounted } from "vue";
+import { reactive, shallowReactive, toRefs, onMounted, onUnmounted, onUpdated } from "vue";
 import { useRouter } from "vue-router";
 import {useStore} from "vuex"
 import BScroll from "@better-scroll/core"
@@ -29,9 +29,7 @@ export default {
 
     let state1 = shallowReactive({bscroll: null})
 
-    
-    store.commit('page/SHOW_HEADER', true)
-    store.commit('page/HEADER_MODE', 'home')
+    store.dispatch('page/intoPage', { pageType: 'home'})
     onMounted(() => {
       state1.bscroll = new BScroll(state.pullDownWrapper, {
         scrollY: true,
@@ -55,9 +53,13 @@ export default {
       })
     })
 
+    onUpdated(() => {
+      store.dispatch('page/intoPage', {pageType: 'home'})
+    })
+
+
     onUnmounted(() => {
-      store.commit('page/SHOW_HEADER', false)
-      store.commit('page/HEADER_MODE', '')
+      store.dispatch('page/leavePage')
     })
 
     return { ...toRefs(state), state1 };

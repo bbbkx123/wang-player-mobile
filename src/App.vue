@@ -55,7 +55,7 @@ export default {
     height: 100%;
     opacity: 0.5;
     z-index: -100;
-    filter: blur(50px);
+    filter: blur(15px);
   }
   .views {
     height: calc(100% - 8% - 50px);

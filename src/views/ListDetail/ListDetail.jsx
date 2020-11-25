@@ -70,17 +70,11 @@ export default defineComponent({
     })
 
     onUpdated(() => {
-      // 显示header
-      store.commit("page/SHOW_HEADER", true)
-      store.commit('page/HEADER_MODE', 'list-details')
-      // 设置背景图片
-      store.commit("page/BG_IMG", detail.value.coverImgUrl)
+      store.dispatch('page/intoPage', {backgroundImage: detail.value.coverImgUrl, pageType: 'list-details'})
     })
 
     onBeforeUnmount(() => {
-      store.commit("page/SHOW_HEADER", false)
-      store.commit('page/HEADER_MODE', '')
-      store.commit("page/BG_IMG", "")
+      store.dispatch('page/leavePage')
     })
 
     getPlayListDetail()

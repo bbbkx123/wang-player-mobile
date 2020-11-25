@@ -1,42 +1,41 @@
-import {defineComponent , ref, onMounted, onUnmounted, onUpdated} from "vue"
-import {useStore} from "vuex"
-
-
-
+import { defineComponent, ref, onMounted, onUnmounted, onUpdated } from "vue"
+import { useStore } from "vuex"
 
 import "./PlayPage.less"
 
 export default defineComponent({
   setup(props) {
     let store = useStore()
-    let pic = ref(store.getters.pic)
-    
+    let pic = ref(store.state.player.pic)
     const HandleClick = () => {
-      console.log(store);
-    }
-    
-    const init = (isInit) => {
-      if (isInit) {
-        store.commit("page/SHOW_HEADER", true)
-        store.commit("page/BG_IMG", store.state.player.pic)
-      } else {
-        store.commit("page/SHOW_HEADER", false)
-        store.commit("page/BG_IMG", '')
-      }
+      console.log(store)
     }
 
-    init(true)
+    store.dispatch("page/intoPage", {
+      backgroundImage: pic.value,
+      pageType: "list-details",
+    })
+    onUpdated(() => {
+      store.dispatch("page/intoPage", {
+        backgroundImage: pic.value,
+        pageType: "list-details",
+      })
+    })
+
     onUnmounted(() => {
-      init(false)
+      store.dispatch("page/leavePage")
     })
 
     return () => (
-      <div className="playpage">
-        <div onClick={HandleClick}>palypage</div>
-        <div className="pic">
-          <img src={pic.value} alt=""/>
+      <div>
+        <div className="play-page">
+          <div className="sssssss"></div>
+          <div onClick={HandleClick}>palypage</div>
+          <div className="pic-wrapper">
+            <img style="width:100%;height:100%;" src={pic.value} alt="" />
+          </div>
         </div>
       </div>
     )
-  }
+  },
 })

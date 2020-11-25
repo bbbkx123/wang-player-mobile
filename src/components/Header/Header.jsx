@@ -60,26 +60,24 @@ export default defineComponent({
 
     function HomeNavigation() {
       return (
-        <>
-          <div class="navigation">
-            <div class="trigger"></div>
-            <div class="tabs">
-              {tabs.value.map((tab, index) => {
-                return (
-                  <div
-                    className={
-                      ["tab-item",currentTabKey.value === index ? "tab-active" : null].join(' ')
-                    }
-                    onClick={clickTabs}
-                  >
-                    {tab.name}
-                  </div>
-                )
-              })}
-            </div>
-            <div class="search"></div>
+        <div class="navigation">
+          <div class="trigger"></div>
+          <div class="tabs">
+            {tabs.value.map((tab, index) => {
+              return (
+                <div
+                  className={
+                    ["tab-item",currentTabKey.value === index ? "tab-active" : null].join(' ')
+                  }
+                  onClick={clickTabs}
+                >
+                  {tab.name}
+                </div>
+              )
+            })}
           </div>
-        </>
+          <div class="search"></div>
+        </div>
       )
     }
 
