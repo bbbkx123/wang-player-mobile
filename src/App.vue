@@ -1,9 +1,12 @@
 <template>
   <div class="app" >
+    <button @click="handleClick" style="color:red;">click - {{'' + show}}</button>
     <div class="background-image" :style="{'background-image': bgImage ? `url(${bgImage}?param=375y700,)` : ''}"></div>
     <Header :show="showHeader" :mode="headerMode"></Header>
-    <router-view class="views"/>
-    <MiniPlayerViews />
+    <transition name="slide">
+      <router-view v-if="show" class="views"/>
+    </transition>
+    <!-- <MiniPlayerViews /> -->
     <Player/>
   </div>
 </template>
@@ -17,6 +20,11 @@ import {useStore} from "vuex"
 export default {
   components: {
     MiniPlayerViews, Player, Header
+  },
+  data () {
+    return {
+      show: true
+    }
   },
   computed: {
     showHeader () {
@@ -34,6 +42,11 @@ export default {
   },
   mounted () {
     // console.log(this.$store);
+  },
+  methods: {
+    handleClick () {
+      this.show = !this.show
+    }
   }
 }
 </script>
@@ -58,7 +71,29 @@ export default {
     filter: blur(15px);
   }
   .views {
-    height: calc(100% - 8% - 50px);
+    // height: calc(100% - 8% - 50px);
+    &.slide-enter {
+      opacity: 0;
+      transform: translateY(0);
+    }
+    &.slide-enter-to {
+      opacity: 1;
+      transform: translateY(1000px);
+    }
+    &.slide-leave {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    &.slide-leave-to {
+      opacity: 0;
+      transform: translateY(1000px);
+    }
+    &.slide-enter-active {
+      transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    &.slide-leave-active  {
+      transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
   }
 }
 </style>
