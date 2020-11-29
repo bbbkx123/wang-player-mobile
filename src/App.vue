@@ -3,9 +3,13 @@
     <button @click="handleClick" style="color:red;">click - {{'' + show}}</button>
     <div class="background-image" :style="{'background-image': bgImage ? `url(${bgImage}?param=375y700,)` : ''}"></div>
     <Header :show="showHeader" :mode="headerMode"></Header>
-    <transition name="slide">
-      <router-view v-if="show" class="views"/>
-    </transition>
+    <router-view class="views" v-slot="{Component}">
+      <transition :name="transitionName">
+        <!-- <div v-if="show"> -->
+          <component :is="Component" />
+        <!-- </div> -->
+      </transition>
+    </router-view>
     <!-- <MiniPlayerViews /> -->
     <Player/>
   </div>
@@ -38,13 +42,23 @@ export default {
     bgImage () {
       let store = useStore()
       return store.state.page.bgImage
+    },
+    transitionName () {
+      // return 'back'
+      return 'go'
     }
   },
-  mounted () {
-    // console.log(this.$store);
+  watch: {
+    // $route (to, from) {
+    //   // console.log(to, from, this.$router);
+    //   if (to.name === "listdetail" && from.name === "recommend") {
+        
+    //   }
+    // }
   },
   methods: {
     handleClick () {
+      console.log(this.$route);
       this.show = !this.show
     }
   }
@@ -71,29 +85,34 @@ export default {
     filter: blur(15px);
   }
   .views {
-    // height: calc(100% - 8% - 50px);
-    &.slide-enter {
-      opacity: 0;
+    // opacity:1;
+    height: calc(100% - 8% - 50px);
+    // transform: translateY(0);
+    &.back-enter {
+      opacity:1;
       transform: translateY(0);
     }
-    &.slide-enter-to {
-      opacity: 1;
-      transform: translateY(1000px);
-    }
-    &.slide-leave {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    &.slide-leave-to {
+    &.back-leave-to {
       opacity: 0;
       transform: translateY(1000px);
     }
-    &.slide-enter-active {
+    &.back-enter-active, &.back-leave-active {
       transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
-    &.slide-leave-active  {
+
+
+    &.go-enter {
+      opacity: 0;
+      transform: translateY(1000px);
+    }
+    &.go-leave-to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    &.go-enter-active, &.go-leave-active {
       transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
+
   }
 }
 </style>
