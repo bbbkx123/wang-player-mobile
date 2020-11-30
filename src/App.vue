@@ -1,17 +1,19 @@
 <template>
-  <div class="app" >
-    <button @click="handleClick" style="color:red;">click - {{'' + show}}</button>
-    <div class="background-image" :style="{'background-image': bgImage ? `url(${bgImage}?param=375y700,)` : ''}"></div>
+  <div class="app">
+    <div
+      class="background-image"
+      :style="{
+        'background-image': bgImage ? `url(${bgImage}?param=375y700,)` : '',
+      }"
+    ></div>
     <Header :show="showHeader" :mode="headerMode"></Header>
-    <router-view class="views" v-slot="{Component}">
+    <router-view class="views" v-slot="{ Component }">
       <transition :name="transitionName">
-        <!-- <div v-if="show"> -->
-          <component :is="Component" />
-        <!-- </div> -->
+        <component :is="Component" />
       </transition>
     </router-view>
     <!-- <MiniPlayerViews /> -->
-    <Player/>
+    <Player />
   </div>
 </template>
 
@@ -19,53 +21,55 @@
 import MiniPlayerViews from "./components/MiniPlayerViews"
 import Player from "./components/Player"
 import Header from "./components/Header"
-import {useStore} from "vuex"
+import { useStore } from "vuex"
 
 export default {
   components: {
-    MiniPlayerViews, Player, Header
+    MiniPlayerViews,
+    Player,
+    Header,
   },
-  data () {
+  data() {
     return {
-      show: true
+      show: true,
+      store1: useStore()
     }
   },
   computed: {
-    showHeader () {
-      let store = useStore()
-      return store.state.page.showHeader
+    showHeader() {
+      // let store = useStore()
+      return this.store1.state.page.showHeader
     },
-    headerMode () {
+    headerMode() {
       let store = useStore()
-      return store.state.page.headerMode
+      return this.store1.state.page.headerMode
     },
-    bgImage () {
+    bgImage() {
       let store = useStore()
-      return store.state.page.bgImage
+      return this.store1.state.page.bgImage
     },
     transitionName () {
-      // return 'back'
-      return 'go'
+      return this.store1.state.page.direction === 'go' ? 'slide-left' : 'slide-right'
     }
   },
   watch: {
     // $route (to, from) {
     //   // console.log(to, from, this.$router);
     //   if (to.name === "listdetail" && from.name === "recommend") {
-        
     //   }
     // }
   },
   methods: {
-    handleClick () {
-      console.log(this.$route);
+    handleClick() {
       this.show = !this.show
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="less">
+@duration:.3s;
+
 .app {
   position: absolute;
   z-index: 0;
@@ -75,7 +79,7 @@ export default {
   overflow: hidden;
   width: 100%;
   height: 100%;
-  background-color: rgb(21,21,21);
+  background-color: rgb(21, 21, 21);
   .background-image {
     position: absolute;
     width: 100%;
@@ -85,34 +89,32 @@ export default {
     filter: blur(15px);
   }
   .views {
-    // opacity:1;
     height: calc(100% - 8% - 50px);
-    // transform: translateY(0);
-    &.back-enter {
-      opacity:1;
-      transform: translateY(0);
-    }
-    &.back-leave-to {
-      opacity: 0;
-      transform: translateY(1000px);
-    }
-    &.back-enter-active, &.back-leave-active {
-      transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-
-
-    &.go-enter {
-      opacity: 0;
-      transform: translateY(1000px);
-    }
-    &.go-leave-to {
+    &.slide-right-enter {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(-100%);
     }
-    &.go-enter-active, &.go-leave-active {
-      transition: all 3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    &.slide-right-leave-to {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    &.slide-right-enter-active, &.slide-right-leave-active {
+      position: absolute;
+      transition: all @duration cubic-bezier(1.0, 0.5, 0.8, 1.0) ;
     }
 
+    &.slide-left-enter {
+      opacity: 1;
+      transform: translateX(100%);
+    }
+    &.slide-left-leave-to {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    &.slide-left-enter-active, &.slide-left-leave-active {
+      position: absolute;
+      transition: all @duration cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
   }
 }
 </style>

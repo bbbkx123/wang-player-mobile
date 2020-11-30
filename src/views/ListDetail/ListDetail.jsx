@@ -19,7 +19,8 @@ export default defineComponent({
     let store = useStore()
 
     const getPlayListDetail = () => {
-      return ApiPlayListDetail(453208524).then((res) => {
+      // 3185023336   纯音乐 453208524
+      return ApiPlayListDetail(3185023336).then((res) => {
         let { coverImgUrl, name, trackIds, tracks } = res.data.playlist
         let { avatarUrl, nickname } = res.data.playlist.creator
         detail.value = {
@@ -86,11 +87,11 @@ export default defineComponent({
             <div className="detail-wrapper">
               <div className="detail">
                 <div className="coverImg">
-                  <img src={detail.value.coverImgUrl} alt="" />
+                  {/* <img src={detail.value.coverImgUrl} alt="" /> */}
                 </div>
                 <div className="info">
-                  <div>{detail.value.name}</div>
-                  <div>{detail.value.nickname}</div>
+                  {/* <div>{detail.value.name}</div>
+                  <div>{detail.value.nickname}</div> */}
                   <div>
                     <img
                       style={{

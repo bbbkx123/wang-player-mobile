@@ -12,6 +12,6 @@ export function getSlot(slots, slot = 'default', data) {
   return slotFn(data);
 }
 
-export function toPage (router, pageName) {
-  router.push({name: pageName})
-}
+// export function toPage (router, pageName) {
+//   router.push({name: pageName})
+// }

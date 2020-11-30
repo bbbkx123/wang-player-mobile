@@ -8,9 +8,8 @@ import {
   onBeforeMount,
 } from "vue"
 import { useRouter } from "vue-router"
+import {useStore} from "vuex"
 import Slider from "components/Slider"
-
-import { toPage } from "common/js/util"
 
 import {
   iconSlider as _iconSlider,
@@ -27,6 +26,7 @@ export default defineComponent({
   },
   setup() {
     let router = useRouter()
+    const store = useStore()
     let bannerConf = ref(_bannerConf),
       iconSliderConf = ref(_iconSliderConf),
       iconSlider = ref(_iconSlider),
@@ -55,18 +55,17 @@ export default defineComponent({
     function getPlayListTags() {
       return ApiGetPlayListTags()
         .then((res) => {
-          debugger
+          
         })
         .catch((err) => {})
     }
 
     function handleClick(event) {
-      toPage(router, "listdetail")
+      store.commit('page/DIRECTION', 'go')
+      router.push({name: 'listdetail'})
     }
 
     getBanner()
-    // getPlayListTags(state)
-    // getTopPlayList(state)
 
     onBeforeMount(() => {})
 
@@ -76,7 +75,6 @@ export default defineComponent({
           <Slider
             sliderConf={unref(bannerConf)}
             mode="Slide"
-            onClick={handleClick}
           >
             {banners.value.map((item, index) => {
               return (

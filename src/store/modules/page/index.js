@@ -4,7 +4,8 @@ export default {
   state: {
     showHeader: false,
     headerMode: null,
-    bgImage: null
+    bgImage: null,
+    direction: 'go'
   },
   mutations: {
     "SHOW_HEADER" (state, showHeader) {
@@ -15,6 +16,9 @@ export default {
     },
     "BG_IMG" (state, bgImage) {
       state.bgImage = bgImage
+    },
+    "DIRECTION" (state, direction) {
+      state.direction = direction
     }
   },
   actions: {
