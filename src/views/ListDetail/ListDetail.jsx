@@ -87,11 +87,11 @@ export default defineComponent({
             <div className="detail-wrapper">
               <div className="detail">
                 <div className="coverImg">
-                  {/* <img src={detail.value.coverImgUrl} alt="" /> */}
+                  <img src={detail.value.coverImgUrl} alt="" />
                 </div>
                 <div className="info">
-                  {/* <div>{detail.value.name}</div>
-                  <div>{detail.value.nickname}</div> */}
+                  <div>{detail.value.name}</div>
+                  <div>{detail.value.nickname}</div>
                   <div>
                     <img
                       style={{

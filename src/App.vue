@@ -6,16 +6,23 @@
         'background-image': bgImage ? `url(${bgImage}?param=375y700,)` : '',
       }"
     ></div>
+    <button style="color:red;" @click="() => isHide = !isHide">isHide</button>
     <div class="views">
       <Header :show="showHeader" :mode="headerMode"></Header>
-      <router-view style="height:calc(100% - 50px);"  v-slot="{ Component }">
+      <router-view style="height:calc(100% - 50px);" v-slot="{ Component }">
         <transition :name="transitionName">
           <component :is="Component" />
         </transition>
       </router-view>
     </div>
-    <div class="mini">
-      <MiniPlayerViews />
+
+    <transition :name="transitionName1">
+      <div class="mini-container">
+        <MiniPlayerViews />
+      </div>
+    </transition>
+    <div class="play-page">
+      
     </div>
     <Player />
   </div>
@@ -23,23 +30,26 @@
 
 <script>
 import MiniPlayerViews from "./components/MiniPlayerViews"
+import PlayPage from "./components/PlayPage"
 import Player from "./components/Player"
 import Header from "./components/Header"
 import { useStore } from "vuex"
-import {useRouter, useRoute} from "vue-router"
+import { useRouter, useRoute } from "vue-router"
 
 export default {
   components: {
     MiniPlayerViews,
     Player,
     Header,
+    PlayPage
   },
   data() {
     return {
       show: true,
       store1: useStore(),
       router: useRouter(),
-      route: useRoute()
+      route: useRoute(),
+      isHide: false
     }
   },
   computed: {
@@ -52,29 +62,29 @@ export default {
     bgImage() {
       return this.store1.state.page.bgImage
     },
-    transitionName () {
-      return this.store1.state.page.direction === 'go' ? 'slide-left' : 'slide-right'
+    transitionName() {
+      return this.store1.state.page.direction === "go"
+        ? "slide-left"
+        : "slide-right"
+    },
+    transitionName1 () {
+      return this.isHide ? 'mini-player-hide' : 'mini-player-show'
     }
   },
   watch: {
-    // $route (to, from) {
-    //   // console.log(to, from, this.$router);
-    //   if (to.name === "listdetail" && from.name === "recommend") {
-    //   }
-    // }
   },
   methods: {
     handleClick() {
-      
-      this.route.name !== 'listdetail' ? this.router.push({name: 'listdetail'}) : this.router.push({name: 'recommend'})
-      
+      this.route.name !== "listdetail"
+        ? this.router.push({ name: "listdetail" })
+        : this.router.push({ name: "recommend" })
     },
   },
 }
 </script>
 
 <style lang="less">
-@duration: .2s;
+@duration: 0.2s;
 
 .app {
   position: absolute;
@@ -95,7 +105,6 @@ export default {
     filter: blur(15px);
   }
   .views {
-    // position: relative;
     height: calc(100% - 8%);
     .slide-right-enter {
       opacity: 1;
@@ -105,9 +114,10 @@ export default {
       opacity: 0;
       transform: translateX(100%);
     }
-    .slide-right-enter-active, .slide-right-leave-active {
-      position: absolute;
-      transition: all @duration cubic-bezier(1.0, 0.5, 0.8, 1.0) ;
+    .slide-right-enter-active,
+    .slide-right-leave-active {
+      // position: absolute;
+      transition: all @duration cubic-bezier(1, 0.5, 0.8, 1);
     }
 
     .slide-left-enter {
@@ -118,16 +128,41 @@ export default {
       opacity: 0;
       transform: translateX(-100%);
     }
-    .slide-left-enter-active, .slide-left-leave-active {
-      position: absolute;
-      transition: all @duration cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    .slide-left-enter-active,
+    .slide-left-leave-active {
+      // position: absolute;
+      transition: all @duration cubic-bezier(1, 0.5, 0.8, 1);
     }
   }
-  .mini {
+  .mini-container {
     position: relative;
     bottom: 0;
     width: 100%;
     height: 8%;
+    // .mini-player {
+    //   &-enter, &-leave-to {
+    //     opacity: 1;
+    //     transform: translateY(8%);
+    //   }
+    //   // &-enter-to, &-leave {
+
+    //   // }
+    //   &-enter-active, &-leave-active {
+    //     transition: all 15s linear;
+    //   }
+      
+    // }
+  }
+  
+  .mini-player-hide-enter{
+    // opacity: 1;
+    // transform: translateY(100%);
+  }
+  .mini-player-hide-leave-to {
+    transform: translateY(100%);
+  }
+  .mini-player-hide-enter-active, .mini-player-hide-leave-active {
+    transition: all .5s linear;
   }
 }
 </style>
