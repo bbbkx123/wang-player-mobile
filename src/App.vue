@@ -6,13 +6,17 @@
         'background-image': bgImage ? `url(${bgImage}?param=375y700,)` : '',
       }"
     ></div>
-    <Header :show="showHeader" :mode="headerMode"></Header>
-    <router-view class="views" v-slot="{ Component }">
-      <transition :name="transitionName">
-        <component :is="Component" />
-      </transition>
-    </router-view>
-    <!-- <MiniPlayerViews /> -->
+    <div class="views">
+      <Header :show="showHeader" :mode="headerMode"></Header>
+      <router-view style="height:calc(100% - 50px);"  v-slot="{ Component }">
+        <transition :name="transitionName">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
+    <div class="mini">
+      <MiniPlayerViews />
+    </div>
     <Player />
   </div>
 </template>
@@ -22,6 +26,7 @@ import MiniPlayerViews from "./components/MiniPlayerViews"
 import Player from "./components/Player"
 import Header from "./components/Header"
 import { useStore } from "vuex"
+import {useRouter, useRoute} from "vue-router"
 
 export default {
   components: {
@@ -32,20 +37,19 @@ export default {
   data() {
     return {
       show: true,
-      store1: useStore()
+      store1: useStore(),
+      router: useRouter(),
+      route: useRoute()
     }
   },
   computed: {
     showHeader() {
-      // let store = useStore()
       return this.store1.state.page.showHeader
     },
     headerMode() {
-      let store = useStore()
       return this.store1.state.page.headerMode
     },
     bgImage() {
-      let store = useStore()
       return this.store1.state.page.bgImage
     },
     transitionName () {
@@ -61,14 +65,16 @@ export default {
   },
   methods: {
     handleClick() {
-      this.show = !this.show
+      
+      this.route.name !== 'listdetail' ? this.router.push({name: 'listdetail'}) : this.router.push({name: 'recommend'})
+      
     },
   },
 }
 </script>
 
 <style lang="less">
-@duration:.3s;
+@duration: .2s;
 
 .app {
   position: absolute;
@@ -89,32 +95,39 @@ export default {
     filter: blur(15px);
   }
   .views {
-    height: calc(100% - 8% - 50px);
-    &.slide-right-enter {
+    // position: relative;
+    height: calc(100% - 8%);
+    .slide-right-enter {
       opacity: 1;
       transform: translateX(-100%);
     }
-    &.slide-right-leave-to {
+    .slide-right-leave-to {
       opacity: 0;
       transform: translateX(100%);
     }
-    &.slide-right-enter-active, &.slide-right-leave-active {
+    .slide-right-enter-active, .slide-right-leave-active {
       position: absolute;
       transition: all @duration cubic-bezier(1.0, 0.5, 0.8, 1.0) ;
     }
 
-    &.slide-left-enter {
+    .slide-left-enter {
       opacity: 1;
       transform: translateX(100%);
     }
-    &.slide-left-leave-to {
+    .slide-left-leave-to {
       opacity: 0;
       transform: translateX(-100%);
     }
-    &.slide-left-enter-active, &.slide-left-leave-active {
+    .slide-left-enter-active, .slide-left-leave-active {
       position: absolute;
       transition: all @duration cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
+  }
+  .mini {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 8%;
   }
 }
 </style>

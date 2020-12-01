@@ -80,7 +80,7 @@ export default defineComponent({
               return (
                 <div key={index}>
                   <a href="">
-                    <img src={item.imageUrl} alt="" />
+                    {/* <img src={item.imageUrl} alt="" /> */}
                   </a>
                 </div>
               )
