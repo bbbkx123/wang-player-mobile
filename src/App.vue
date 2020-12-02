@@ -17,7 +17,7 @@
     </div>
 
     <transition :name="transitionName1">
-      <div class="mini-container">
+      <div v-if="isHide" class="mini-container">
         <MiniPlayerViews />
       </div>
     </transition>
@@ -26,9 +26,13 @@
     </div>
     <Player />
   </div>
+  
 </template>
 
 <script>
+// import VueRouteTransition from "./components/vue-route-transition/transition"
+
+
 import MiniPlayerViews from "./components/MiniPlayerViews"
 import PlayPage from "./components/PlayPage"
 import Player from "./components/Player"
@@ -41,7 +45,8 @@ export default {
     MiniPlayerViews,
     Player,
     Header,
-    PlayPage
+    PlayPage,
+    // VueRouteTransition
   },
   data() {
     return {
@@ -49,7 +54,7 @@ export default {
       store1: useStore(),
       router: useRouter(),
       route: useRoute(),
-      isHide: false
+      isHide: true
     }
   },
   computed: {
@@ -68,7 +73,8 @@ export default {
         : "slide-right"
     },
     transitionName1 () {
-      return this.isHide ? 'mini-player-hide' : 'mini-player-show'
+      // return this.isHide ? 'mini-player-hide' : 'mini-player-show'
+      return 'mini-player-hide'
     }
   },
   watch: {
@@ -154,13 +160,18 @@ export default {
     // }
   }
   
-  .mini-player-hide-enter{
-    // opacity: 1;
-    // transform: translateY(100%);
+  .mini-player-hide-enter, .mini-player-hide-leave-to{
+    opacity: 0;
+    // height: 0;
+    transform: translateY(100px);
   }
-  .mini-player-hide-leave-to {
-    transform: translateY(100%);
+
+  .mini-player-hide-enter-to, .mini-player-hide-leave{
+    opacity: 1;
+    // height: 8%;
+    transform: translateY(-100px);
   }
+
   .mini-player-hide-enter-active, .mini-player-hide-leave-active {
     transition: all .5s linear;
   }
